@@ -4,7 +4,7 @@ import re
 
 from setuptools import setup, find_packages
 
-__version__ = '0.1.0'
+__version__ = '0.1.6'
 
 
 def read(filename):
@@ -19,7 +19,7 @@ setup(
     version=__version__,
     author='cst',
     license=read('LICENSE'),
-    author_email='cst',
+    author_email='tech@nicuzs.com',  # i had to add a "real" email
     url='https://test.pypi.org/project/cst-micro-chassis/',
     description='Will explain later ... ',
     long_description=read('README.md'),
@@ -27,6 +27,7 @@ setup(
     package_dir={'': 'src'},
     install_requires=[
         'flask==1.1.*',
+        'flask-restful==0.3.*',
     ],
     classifiers=[
         'Development Status :: 2 - Pre-Alpha'
