@@ -1,13 +1,17 @@
+import os
 from uuid import uuid4
 from flask import g, request
 from flask_restful import Resource
 
-API_DEFAULT_PAGE_SIZE = 25
+try:
+    API_DEFAULT_PAGE_SIZE = int(os.environ.get('CST_API_DEFAULT_PAGE_SIZE'))
+except (TypeError, ValueError):
+    API_DEFAULT_PAGE_SIZE = 25
 
 
-class ChassisResource(Resource):
+class ApiResource(Resource):
     def __init__(self, *args, **kwargs):
-        super(ChassisResource, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.errors = []
         # pagination disabled by default
         self.enable_pagination = False
@@ -32,7 +36,7 @@ class ChassisResource(Resource):
             return new_response, 400
 
         status_code = None
-        response = super(ChassisResource, self).dispatch_request(*args, **kwargs)
+        response = super().dispatch_request(*args, **kwargs)
         if isinstance(response, (list, tuple)):
             response, status_code = response
 
@@ -46,7 +50,7 @@ class ChassisResource(Resource):
         return new_response, status_code if status_code else response
 
 
-class ChassisPaginatedMixin:
+class ApiPaginatedMixin:
     def __init__(self):
         super().__init__()
         self.enable_pagination = True
@@ -71,12 +75,12 @@ class ChassisPaginatedMixin:
             query = query.limit(self.limit + 1)
         return query
 
-    def compute_has_next(self, items: list) -> list:
+    def compute_has_next(self, items):
         """
         Checks if number of items is equal to self.limit + 1 -> self.has_next = true
         cannot be directly called by apply_limits_to_query because it will force the evaluation of
         the query and the user of that function may not want it because he may have other filters
-        /sorting/subqueries needed to add to this query.
+        /sorting/sub-queries needed to add to this query.
         :param items: list of items that need to be paginated
         :return: list of items without the last item in the list - which was requested only to see
         if there are more items than needed meaning the `next` url in meta should be displayed
@@ -105,7 +109,7 @@ class ChassisPaginatedMixin:
         except ValueError:
             self.add_error(f"Invalid parameter 'limit={_limit}'")
 
-    def _add_pagination_meta(self, response) -> dict:
+    def _add_pagination_meta(self, response):
         # store the existing query parameters in order to avoid losing any filters
         request_args = dict(request.args)
 
