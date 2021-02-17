@@ -4,7 +4,7 @@ import re
 
 from setuptools import setup, find_packages
 
-__version__ = '0.1.6'
+__version__ = '0.1.13'
 
 
 def read(filename):
