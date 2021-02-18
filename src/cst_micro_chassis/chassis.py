@@ -29,7 +29,7 @@ class CstMicroChassis:
         dictConfig(conf_dict)
 
     def register_blueprints(self):
-        health_check_bp = Blueprint(f'cst-micro-chassis', self._app.import_name)
+        health_check_bp = Blueprint('cst-micro-chassis', self._app.import_name)
         status_endpoint_url = self._app.config.get('CST_HEALTH_CHECK_ENDPOINT') or 'status'
         health_check_bp.add_url_rule(
             f'/{status_endpoint_url.lstrip("/")}',
