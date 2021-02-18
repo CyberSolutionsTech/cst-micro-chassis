@@ -9,6 +9,7 @@ except (ImportError, RuntimeError):
 
 
 FORMAT = '%(asctime)s [%(levelname)s][%(operation_id)s] %(name)s: %(message)s'
+
 APP_STREAM_LOG_LEVEL = os.environ.get('APP_STREAM_LOG_LEVEL') or 'INFO'
 if str(APP_STREAM_LOG_LEVEL).lower() not in ['debug', 'info', 'warning', 'error', 'critical']:
     import logging
@@ -29,7 +30,6 @@ class CstMicroChassisLogFormatter(Formatter):
 
 
 def get_log_config_dict(app_name):
-
     return {
         'version': 1,
         'formatters': {
@@ -58,6 +58,3 @@ def get_log_config_dict(app_name):
         }
     }
 
-
-def setup_logging_config(app):
-    config.dictConfig(get_log_config_dict(str(app.import_name)))
