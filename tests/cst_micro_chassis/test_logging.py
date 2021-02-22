@@ -1,9 +1,4 @@
-import logging
-from logging.config import dictConfig
-import pytest
-
 from cst_micro_chassis.logging import get_log_config_dict
-from unittest import mock
 
 
 def test_logging_simple():
@@ -12,5 +7,3 @@ def test_logging_simple():
     assert app_name in conf_dict['loggers'].keys()
 
     assert conf_dict['loggers'][app_name]['level'] == 'INFO'
-
-
