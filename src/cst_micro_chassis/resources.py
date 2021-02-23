@@ -58,11 +58,13 @@ class ApiPaginatedMixin:
         self.offset = 0
         self.limit = API_DEFAULT_PAGE_SIZE
 
+    def get_paginated_query_result(self, query):
+        result_list = self.apply_limits_to_query(query).all()
+        return self.compute_has_next(result_list)
+
     def apply_limits_to_query(self, query):
         """
         IMPORTANT always call self.compute_has_next(query.all()) on the results of this query !!!
-         TODO investigate if there is a possibility to attach a SQLAlchemy ORM event listener to
-          this query, such that after query is evaluated, compute_has_next is automatically called
         :param query: SQLAlchemy BaseQuery object to be sliced on db side according to self.offset
          and/or self.limit
         :return: SQLAlchemy BaseQuery object with a limit / offset sql clause added

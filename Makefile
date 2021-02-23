@@ -1,6 +1,10 @@
 .DEFAULT_GOAL := build
 SHELL := /bin/bash
 
+ifndef pyversion
+override pyversion = py39
+endif
+
 build:
 	$(RM) -r ./build_venv ./dist/ ./build/
 	python3 -m venv ./build_venv
@@ -14,7 +18,7 @@ test:
 	python3 -m venv ./test_venv
 	source ./test_venv/bin/activate \
 && pip install tox  --quiet --disable-pip-version-check \
-&& tox -e py39
+&& tox -e $(pyversion)
 
 clean:
 	@echo "Cleaning up . . ."

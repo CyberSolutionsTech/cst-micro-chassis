@@ -8,12 +8,10 @@ def test_flask_extension_generates_healthcheck():
     CstMicroChassis().init_app(app)
 
     with app.test_client() as c:
-        app.config['CST_PROJECT_NAME'] = 'Test app using micro-chassis'
         app.config['CST_PROJECT_VERSION'] = '0.1.0-4e7205'
-
         rv = c.get('/status')
         assert rv.status_code == 200
-        assert rv.json == {'name': 'Test app using micro-chassis', 'version': '0.1.0-4e7205'}
+        assert rv.json == {'name': 'Test-Cst-Micro-Chassis', 'version': '0.1.0-4e7205'}
         for h in rv.headers:
             if h[0] == 'Content-Type':
                 assert h[1] == 'application/json'
