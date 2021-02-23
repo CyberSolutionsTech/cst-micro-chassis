@@ -49,7 +49,8 @@ You may also want to set a custom url route instead of the standard `/status` ; 
 
 
 
-######LOGGING
+##### LOGGING
+
 As mentioned above, a custom logging configuration was set for your flask application, so when using the logging module: 
 ```python
 import logging 
@@ -70,7 +71,7 @@ By default, all messages with a severity of `INFO` or above (`WARNING`, `ERROR` 
 Probably the less obvious section in the logger format above is the `operation_id` part. This is a custom logging attribute bound to the flask application context, more details about it in the RESOURCES section below.
 
 
-######RESOURCES 
+##### RESOURCES 
 
 ApiResource is an enhanced version of [Flask-RESTful's resource](https://flask-restful.readthedocs.io/en/latest/quickstart.html#resourceful-routing) building block.
 One would use it in the same manner as a Flask-RESTful resource: 
@@ -116,15 +117,18 @@ The most obvious difference (compared to a standard response expected from a fla
 
  - The `"data"` section contains the actual result of the get operation, which in our naive example, is adding the "It works for " prefix to the simple_id argument which has a value of 123.
  - The `"meta"` section contains by default an `operation_id`, which is a unique uuid4 identifier assigned to each http request. Also looking at flask servers logs, one can notice that between the log level `[INFO]` and the application name "new-app", also the logging entry's operation_id section was populated with the same value of `79bfcecd-55ba-4f97-b175-b104962cafa2`
+   
     ```shell
     2021-01-01 11:35:01,419 [INFO][79bfcecd-55ba-4f97-b175-b104962cafa2] new-app: I received a GET request for 123
     ```
+   
     This unique identifier eases debugging by allowing log grouping, aggregation and overall a better tracking on each operation made via the API endpoints.
 
  - More metadata can be added to this `meta` section, like: filtering, sorting or pagination params - as it will be detailed in the following section
 
    
-######PAGINATION
+##### PAGINATION
+
 Assuming the application uses SQLAlchemy ORM, one can use the cst-micro-chassis pagination mixin like this:
 
 ```python
