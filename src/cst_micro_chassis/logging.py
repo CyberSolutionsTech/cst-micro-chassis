@@ -10,14 +10,17 @@ except (ImportError, RuntimeError):
 
 FORMAT = '%(asctime)s [%(levelname)s][%(operation_id)s] %(name)s: %(message)s'
 
-APP_STREAM_LOG_LEVEL = os.environ.get('APP_STREAM_LOG_LEVEL') or 'INFO'
-if str(APP_STREAM_LOG_LEVEL).lower() not in ['debug', 'info', 'warning', 'error', 'critical']:
+STREAM_LOG_LEVEL = (
+        os.environ.get('CST_STREAM_LOG_LEVEL') or
+        os.environ.get('APP_STREAM_LOG_LEVEL') or  # legacy support
+        'INFO'
+).upper()
+if STREAM_LOG_LEVEL not in ['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL']:
     import logging
-
     logging.getLogger(__name__).warning(
-        'Invalid value for APP_STREAM_LOG_LEVEL. The value was revised and set to INFO'
+        'Invalid value for STREAM_LOG_LEVEL. The value was revised and set to INFO'
     )
-    APP_STREAM_LOG_LEVEL = 'INFO'
+    STREAM_LOG_LEVEL = 'INFO'
 
 
 class CstMicroChassisLogFormatter(Formatter):
@@ -25,7 +28,10 @@ class CstMicroChassisLogFormatter(Formatter):
         # set the current operation_id for every log message formatted by this Formatter
         # alternatively, this could be done in the .format method of the Handler if we need it
         # regardless of the formatter used
-        record.operation_id = g.operation_id if hasattr(g, 'operation_id') else 'No operation_id'
+        try:
+            record.operation_id = getattr(g, 'operation_id', None) or 'No operation_id'
+        except (RuntimeError, AttributeError):
+            record.operation_id = 'No operation_id'
         return super().format(record)
 
 
@@ -53,7 +59,7 @@ def get_log_config_dict(app_name):
             app_name: {
                 'handlers': ['console'],
                 'propagate': False,
-                'level': APP_STREAM_LOG_LEVEL,
+                'level': STREAM_LOG_LEVEL,
             },
         }
     }
