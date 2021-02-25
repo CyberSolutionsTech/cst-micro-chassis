@@ -19,9 +19,9 @@ setup(
     version=__version__,
     author='cst',
     license=read('LICENSE'),
-    author_email='tech@nicuzs.com',  # i had to add a "real" email
+    author_email='nicolae.natrapeiu@cyber-solutions.com',
     url='https://test.pypi.org/project/cst-micro-chassis/',
-    description='Will explain later ... ',
+    description='Microservices chassis pattern library',
     long_description=read('README.md'),
     packages=find_packages(where='src'),
     package_dir={'': 'src'},
