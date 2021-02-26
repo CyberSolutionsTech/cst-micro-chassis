@@ -1,4 +1,5 @@
 .DEFAULT_GOAL := build
+.PHONY: build test clean
 SHELL := /bin/bash
 
 ifndef pyversion

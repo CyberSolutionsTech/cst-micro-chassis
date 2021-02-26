@@ -2,7 +2,7 @@
 
 ---
 
-Cst-Micro-Chassis is a chassis framework for creating REST-ful APIs based on Flask and Flask-Restful. 
+Cst-Micro-Chassis is a [chassis framework](https://microservices.io/patterns/microservice-chassis.html) for creating REST-ful APIs based on Flask and Flask-Restful. 
 
 The main topics covered are: 
 
@@ -46,8 +46,28 @@ Setting a custom name and version for the application can be done by setting the
 
 You may also want to set a custom url route instead of the standard `/status` ; this can be done setting `CST_HEALTH_CHECK_ENDPOINT=/my-custom-status` environment or flask variable.
 
+If the flask application also uses Flask-SQLAlchemy + migrate and alembic, you can also provide the Flask-SQLAlchemy instance as an optional argument to the chassis init_app method like this
 
+```python
+# import Flask, SQLAlchemy, Migrate, CstMicroChassis 
+app = Flask('my-first-cst-app-with-db')
+db = SQLAlchemy()
+migrate = Migrate()
+db.init_app()
+migrate.init_app(app, db)
 
+CstMicroChassis.init_app(app, db)
+
+```
+doing now a `curl localhost/status ` should return also the latest migration from the `alembic_version` database table:
+
+```json
+{
+  "name": "My-First-Cst-App-With-DB",
+  "version": "N/A",
+  "last_migration": "ef123ae24f13"
+}
+```
 
 ##### LOGGING
 
