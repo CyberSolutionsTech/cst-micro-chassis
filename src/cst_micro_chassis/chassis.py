@@ -58,7 +58,11 @@ class CstMicroChassis:
         }
         if self._db:
             conn = self._db.session.connection()
+            try:
+                last_migration = next(conn.execute(f'SELECT * FROM alembic_version;'))[0]
+            except StopIteration:
+                last_migration = None
             resp.update({
-                'last_migration': next(conn.execute('SELECT * FROM alembic_version;'))[0]
+                'last_migration': last_migration
             })
         return jsonify(resp)
