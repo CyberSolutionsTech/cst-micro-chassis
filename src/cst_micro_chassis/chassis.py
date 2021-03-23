@@ -1,3 +1,4 @@
+import os
 from logging.config import dictConfig
 
 from flask import Blueprint, jsonify
@@ -30,7 +31,11 @@ class CstMicroChassis:
 
     def register_blueprints(self):
         health_check_bp = Blueprint('cst-micro-chassis', self._app.import_name)
-        status_endpoint_url = self._app.config.get('CST_HEALTH_CHECK_ENDPOINT') or 'status'
+        status_endpoint_url = (
+                os.environ.get('CST_HEALTH_CHECK_ENDPOINT') or
+                self._app.config.get('CST_HEALTH_CHECK_ENDPOINT') or
+                'status'
+        )
         health_check_bp.add_url_rule(
             f'/{status_endpoint_url.lstrip("/")}',
             view_func=self.status_view,
@@ -40,12 +45,24 @@ class CstMicroChassis:
 
     def status_view(self):
         resp = {
-            'name': self._app.config.get('CST_PROJECT_NAME') or 'N/A',
-            'version': self._app.config.get('CST_PROJECT_VERSION') or 'N/A',
+            'name': (
+                        os.environ.get('CST_PROJECT_NAME') or
+                        self._app.config.get('CST_PROJECT_NAME') or
+                        str(self._app.import_name).title()
+            ),
+            'version': (
+                os.environ.get('CST_PROJECT_VERSION') or
+                self._app.config.get('CST_PROJECT_VERSION')
+                or 'N/A'
+            ),
         }
         if self._db:
             conn = self._db.session.connection()
+            try:
+                last_migration = next(conn.execute(f'SELECT * FROM alembic_version;'))[0]
+            except StopIteration:
+                last_migration = None
             resp.update({
-                'last_migration': next(conn.execute('SELECT * FROM alembic_version;'))[0]
+                'last_migration': last_migration
             })
         return jsonify(resp)
