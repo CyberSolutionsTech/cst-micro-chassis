@@ -1,5 +1,6 @@
 ## Cst-Micro-Chassis
-
+[![Tests](https://github.com/CyberSolutionsTech/cst-micro-chassis/actions/workflows/tests.yaml/badge.svg)](https://github.com/CyberSolutionsTech/cst-micro-chassis/actions/workflows/tests.yaml)
+[![Upload Python Package](https://github.com/CyberSolutionsTech/cst-micro-chassis/actions/workflows/publish_pypi.yaml/badge.svg)](https://github.com/CyberSolutionsTech/cst-micro-chassis/actions/workflows/publish_pypi.yaml)
 ---
 
 Cst-Micro-Chassis is a [chassis framework](https://microservices.io/patterns/microservice-chassis.html) for creating REST-ful APIs based on Flask and Flask-Restful. 
