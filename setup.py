@@ -14,7 +14,7 @@ setup(
     author='cst',
     license='MIT',
     author_email='nicolae.natrapeiu@cyber-solutions.com',
-    url='https://test.pypi.org/project/cst-micro-chassis/',
+    url='https://pypi.org/project/cst-micro-chassis/',
     description='Microservices chassis pattern library',
     long_description=read('README.md'),
     long_description_content_type='text/markdown',
