@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-__version__ = '0.3.1'
+__version__ = '0.1.0'
 
 
 def read(filename):
@@ -14,7 +14,7 @@ setup(
     author='cst',
     license='MIT',
     author_email='tech@nicuzs.com',  # i had to add a "real" email
-    url='https://test.pypi.org/project/cst-micro-chassis/',
+    url='https://pypi.org/project/cst-micro-chassis/',
     description='Will explain later ... ',
     long_description=read('README.md'),
     long_description_content_type='text/markdown',
