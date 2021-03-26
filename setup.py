@@ -12,7 +12,7 @@ setup(
     name='cst-micro-chassis',
     version=__version__,
     author='cst',
-    license='MIT,
+    license='MIT',
     author_email='nicolae.natrapeiu@cyber-solutions.com',
     url='https://test.pypi.org/project/cst-micro-chassis/',
     description='Microservices chassis pattern library',
