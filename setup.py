@@ -11,15 +11,18 @@ def read(filename):
 setup(
     name='cst-micro-chassis',
     version=__version__,
-    author='cst',
+    author='CyberSolutionsTech',
     license='MIT',
     author_email='nicolae.natrapeiu@cyber-solutions.com',
-    url='https://pypi.org/project/cst-micro-chassis/',
     description='Microservices chassis pattern library',
     long_description=read('README.md'),
     long_description_content_type='text/markdown',
     packages=find_packages(where='src'),
     package_dir={'': 'src'},
+    url='https://pypi.org/project/cst-micro-chassis/',
+    project_urls={
+        'Source': 'https://github.com/CyberSolutionsTech/cst-micro-chassis'
+    },
     install_requires=[
         'flask==1.1.*',
         'flask-restful==0.3.*',
